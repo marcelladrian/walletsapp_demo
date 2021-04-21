@@ -1,6 +1,7 @@
 package org.bsim.intern.shared.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDTO implements Serializable {
 
@@ -8,6 +9,11 @@ public class UserDTO implements Serializable {
     private long id;
     private String userId;
     private String userName;
+    private List<WalletsDTO> listWallet;
+
+    public void setListWallet(List<WalletsDTO> listWallet) {
+        this.listWallet = listWallet;
+    }
 
     public long getId() {
         return id;
@@ -33,5 +39,8 @@ public class UserDTO implements Serializable {
         this.userName = userName;
     }
 
+    public List<WalletsDTO> getListWallet() {
+        return listWallet;
+    }
 
 }
