@@ -10,12 +10,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/wallets")
 public class WalletsController {
 
     @Autowired
     IWalletsService walletsService;
+
+    @GetMapping(path = "/{userId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+
+    public List<WalletResponse> getAllWallet(@PathVariable String userId){
+        List<WalletResponse> value = new ArrayList<>();
+
+        ModelMapper mapper = new ModelMapper();
+        List<WalletsDTO> wallets = walletsService.getListWallet(userId);
+
+        for (WalletsDTO walletsDTO : wallets){
+            value.add(mapper.map(walletsDTO, WalletResponse.class));
+        }
+        return value;
+    }
 
     @PostMapping(path = "/{userid}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},

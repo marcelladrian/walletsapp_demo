@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class WalletsServiceImpl implements IWalletsService {
 
@@ -21,6 +24,23 @@ public class WalletsServiceImpl implements IWalletsService {
     UserRepository userRepository;
     @Autowired
     GenerateRandomPublicId generateRandomPublicId;
+
+    @Override
+    public List<WalletsDTO> getListWallet(String userid) {
+        ModelMapper mapper = new ModelMapper();
+
+        List<WalletsDTO> value = new ArrayList<>();
+
+        //Get User
+        UserEntity userEntity = userRepository.findByUserId(userid);
+
+        List<WalletsEntity> wallets = walletsRepository.findAllByUser(userEntity);
+
+        for (WalletsEntity walletsEntity : wallets){
+            value.add(mapper.map(walletsEntity, WalletsDTO.class));
+        }
+        return value;
+    }
 
     @Override
     public WalletsDTO addNewWalletData(String userid, WalletsDTO walletsDTO) {
