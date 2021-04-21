@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,23 @@ public class UserController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<UserResponse> getUsers(){
-        return null;
+        List<UserDTO> users = userService.getListUser();
+        ModelMapper mapper = new ModelMapper();
+
+        List<UserResponse> value = new ArrayList<>();
+        for (UserDTO userDTO : users){
+            value.add(mapper.map(userDTO, UserResponse.class));
+        }
+        return value;
+    }
+
+    @GetMapping(path = "/{username}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public UserResponse getUserByUsername(@PathVariable String username){
+        UserDTO getUser = userService.getUserByUsername(username);
+        if (getUser == null)
+            return null;
+        //else
+        return new ModelMapper().map(getUser, UserResponse.class);
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -31,7 +48,7 @@ public class UserController {
         UserDTO createdUser = userService.addNewData(userDTO);
         //UserDTO --> UserResponse
         UserResponse response = mapper.map(createdUser, UserResponse.class);
-        //return
+
         return response;
     }
 

@@ -42,5 +42,4 @@ public class UserEntity implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
 }
