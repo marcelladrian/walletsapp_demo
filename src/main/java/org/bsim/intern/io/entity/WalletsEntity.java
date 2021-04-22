@@ -2,6 +2,7 @@ package org.bsim.intern.io.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "walletsTBL")
@@ -12,6 +13,8 @@ public class WalletsEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqwallets")
     private long id;
+
+
 
     @Column(nullable = false)
     private String walletid;
@@ -28,6 +31,9 @@ public class WalletsEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
     private UserEntity user;
+
+    @OneToMany(mappedBy = "walletsEntity")
+    private List<TransactionsEntity> transactionsEntity;
 
     public long getId() {
         return id;
@@ -77,4 +83,11 @@ public class WalletsEntity implements Serializable {
         this.user = user;
     }
 
+    public List<TransactionsEntity> getTransactionsEntity() {
+        return transactionsEntity;
+    }
+
+    public void setTransactionsEntity(List<TransactionsEntity> transactionsEntity) {
+        this.transactionsEntity = transactionsEntity;
+    }
 }
