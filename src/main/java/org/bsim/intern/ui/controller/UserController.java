@@ -18,7 +18,7 @@ public class UserController {
 
     @Autowired
     IUserInterface userService;
-
+    //get all user
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<UserResponse> getUsers(){
         List<UserDTO> users = userService.getListUser();

@@ -96,7 +96,7 @@ public class TransactionsImpl implements IServiceTransactions {
         if (amountInit - amountUpdate > 0){
             walletsEntity.setBalance(balanceInit + (amountUpdate-amountInit));
         }else{
-            walletsEntity.setBalance(balanceInit - (amountInit-amountUpdate));
+            walletsEntity.setBalance(balanceInit - (amountUpdate-amountInit));
         }
 
         TransactionsEntity storedValue = transactionsRepository.save(entity);
